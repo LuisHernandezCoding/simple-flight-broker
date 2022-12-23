@@ -1,0 +1,92 @@
+<div class="box">
+  <div class="content">
+    <h1 class="title">Search Flights</h1>
+    <%= form_tag(flights_path, method: "get") do %>
+      <div class="columns">
+        <div class="field column">
+          <%= label_tag :from_airport_id, "From", class: "label" %>
+          <div class="select">
+            <%= select_tag :from_airport_id, options_from_collection_for_select(Airport.all, :id, :name) %>
+          </div>
+        </div>
+        <div class="field column">
+          <%= label_tag :to_airport_id, "To", class: "label" %>
+          <div class="select">
+            <%= select_tag :to_airport_id, options_from_collection_for_select(Airport.all, :id, :name) %>
+          </div>
+        </div>
+        <div class="field column">
+          <%= label_tag :date, "Date", class: "label" %>
+          <div class="control">
+            <% possible_dates = Flight.where("departure_time > ?", Date.today).pluck(:departure_time).map { |d| d.to_date }.uniq %>
+            <%= date_field_tag :date, Date.today, min: Date.today, max: possible_dates.max, class: "input" %>
+          </div>
+        </div>
+        <div class="field column">
+          <%= label_tag :passengers, "Passengers", class: "label" %>
+          <div class="select">
+            <%= select_tag :passengers, options_for_select([1, 2, 3, 4]) %>
+          </div>
+          &nbsp; &nbsp; <%= submit_tag "Search", class: "button is-primary" %>
+          <a href="<%= flights_path %>" class="button is-link">Clear</a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<% if @flights %>
+  <div class="box m-6">
+    <div class="content">
+      <%= form_tag(bookings_path, method: "get") do %>
+        <h1 class="title">
+          Flights
+          <input type="hidden" name="passengers" value="<%= params[:passengers] %>">
+          <%= submit_tag "Book", class: "button is-pulled-right is-primary" %>
+        </h1>
+        <table class="table is-fullwidth">
+          <thead>
+            <tr>
+              <th>Flight Number</th>
+              <th>Departure</th>
+              <th>Arrival</th>
+              <th>Departure Day</th>
+              <th>Departure Hour</th>
+              <th>TAGS</th>
+              <% if params[:passengers].to_i > 1 %>
+                <th>Unit Price</th>
+                <th>Total price</th>
+              <% else %>
+                <th>Price</th>
+              <% end %>
+              <th>Book</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @flights.empty? %>
+              <tr class="has-text-centered is-size-4 has-text-weight-bold is-uppercase">
+                <td colspan="8" class="has-text-centered"><em>No flights found</em></td>
+              </tr>
+            <% end %>
+            <% @flights.each do |flight| %>
+              <tr>
+                <td><%= flight.flight_number %></td>
+                <td><%= flight.from_airport.name %></td>
+                <td><%= flight.to_airport.name %></td>
+                <td><%= flight.departure_time %></td>
+                <td><%= flight.duration %></td>
+                <td><%= flight.from_airport.code %> - <%= flight.to_airport.code %></td>
+                <% if params[:passengers].to_i > 1 %>
+                  <td>$<%= flight.price %></td>
+                  <td>$<%= flight.price.to_i * params[:passengers].to_i %></td>
+                <% else %>
+                  <td>$<%= flight.price %></td>
+                <% end %>
+                <td><%= radio_button_tag :flight_id, flight.id %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+<% end %>

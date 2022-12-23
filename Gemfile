@@ -73,3 +73,6 @@ end
 
 # Use rubocop to lint code
 gem 'rubocop', '>= 1.0', '< 2.0'
+
+# Use Bulma for CSS [https://bulma.io]
+gem "bulma-rails", "~> 0.9.4"

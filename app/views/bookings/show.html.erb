@@ -1,0 +1,110 @@
+<h1 class="title is-1 has-text-centered">Flight Booking Confirmation</h1>
+<br>
+<div class="columns p-6">
+  <div class="column is-third">
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Flight Details
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          <p>
+            <strong>Flight Number:</strong> <%= @flight.flight_number %>
+          </p>
+          <p>
+            <strong>Departure Airport:</strong> <%= @flight.from_airport.name %>
+          </p>
+          <p>
+            <strong>Arrival Airport:</strong> <%= @flight.to_airport.name %>
+          </p>
+          <p>
+            <strong>Departure Date:</strong> <%= @flight.departure_time %>
+          </p>
+          <p>
+            <strong>Departure Time:</strong> <%= @flight.departure_time %>
+          </p>
+          <p>
+            <strong>Arrival Date:</strong> <%= @flight.arrival_time %>
+          </p>
+          <p>
+            <strong>Arrival Time:</strong> <%= @flight.arrival_time %>
+          </p>
+          <p>
+            <strong>Duration:</strong> <%= @flight.duration %>
+          </p>
+          <p>
+            <strong>price:</strong> <%= @flight.price %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="column is-third">
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Airports Details
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          <p>
+            <strong>Departure Airport:</strong> <%= @flight.from_airport.name %>
+          </p>
+          <p>
+            <strong>Departure Airport Code:</strong> <%= @flight.from_airport.code %>
+          </p>
+          <p>
+            <strong>Departure Airport City:</strong> <%= @flight.from_airport.city %>
+          </p>
+          <p>
+            <strong>Departure Airport Country:</strong> <%= @flight.from_airport.country %>
+          </p>
+          <p>
+            <strong>Arrival Airport:</strong> <%= @flight.to_airport.name %>
+          </p>
+          <p>
+            <strong>Arrival Airport Code:</strong> <%= @flight.to_airport.code %>
+          </p>
+          <p>
+            <strong>Arrival Airport City:</strong> <%= @flight.to_airport.city %>
+          </p>
+          <p>
+            <strong>Arrival Airport Country:</strong> <%= @flight.to_airport.country %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="column is-third">
+    <% @booking.passengers.each do |passenger| %>
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Passenger Details
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>
+              <strong>Name:</strong> <%= passenger.name %>
+            </p>
+            <p>
+              <strong>Email:</strong> <%= passenger.email %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <br>
+    <% end %>
+  </div>
+</div>
+<div class="has-text-centered">
+  <div class="buttons is-centered">
+    <%= link_to "Back", root_path, class: "button is-info" %>
+    <button class="button is-primary">Purchase</button>
+  </div>
+</div>

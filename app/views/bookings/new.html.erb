@@ -1,0 +1,70 @@
+<div class="m-6">
+  <div class="content">
+    <h1 class="title is-1 has-text-weight-bold has-text-primary">Book Flight</h1>
+    <div class="columns">
+      <div class="column is-3 p-4">
+        <div class="box p-6">
+          <h2 class="subtitle">Departure Airport</h2>
+          <p><strong>Name:</strong> <%= @flight.from_airport.name %></p>
+          <p><strong>Code:</strong> <%= @flight.from_airport.code %></p>
+          <p><strong>City:</strong> <%= @flight.from_airport.city %></p>
+          <p><strong>Country:</strong> <%= @flight.from_airport.country %></p>
+          <p><strong>Timezone:</strong> <%= @flight.from_airport.timezone %></p>
+          <p><strong>Lat/long:</strong> <%= @flight.from_airport.latitude %>, <%= @flight.from_airport.longitude %></p>
+        </div>
+        <div class="box p-6">
+          <h2 class="subtitle">Arrival Airport</h2>
+          <p><strong>Name:</strong> <%= @flight.to_airport.name %></p>
+          <p><strong>Code:</strong> <%= @flight.to_airport.code %></p>
+          <p><strong>City:</strong> <%= @flight.to_airport.city %></p>
+          <p><strong>Country:</strong> <%= @flight.to_airport.country %></p>
+          <p><strong>Timezone:</strong> <%= @flight.to_airport.timezone %></p>
+          <p><strong>Lat/long:</strong> <%= @flight.to_airport.latitude %>, <%= @flight.to_airport.longitude %></p>
+        </div>
+      </div>
+      <div class="column is-3 p-4">
+        <div class="box p-6">
+          <h2 class="subtitle">Flight Details</h2>
+          <p><strong>Flight Number:</strong> <%= @flight.flight_number %></p>
+          <p><strong>Departure:</strong> <%= @flight.from_airport.name %></p>
+          <p><strong>Arrival:</strong> <%= @flight.to_airport.name %></p>
+          <p><strong>Departure Day:</strong> <%= @flight.departure_time %></p>
+          <p><strong>Departure Hour:</strong> <%= @flight.departure_time %></p>
+          <p><strong>Price:</strong> <%= number_to_currency(@flight.price) %></p>
+        </div>
+        <div class="box p-6">
+          <h2 class="subtitle">Passengers</h2>
+          <p><strong>Number of Passengers:</strong> <%= @passengers %></p>
+          <p><strong>Total Price:</strong> <%= number_to_currency(@flight.price.to_i * @passengers) %></p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="box p-6">
+          <h2 class="subtitle">Passenger Details</h2>
+          <%= form_for @booking do |f| %>
+            <%= f.hidden_field :flight_id, value: @flight.id %>
+            <%= f.fields_for :passengers do |passenger| %>
+              <p class="has-text-weight-bold">
+                Passenger <%= passenger.index + 1 %>
+              </p>
+              <div class="columns">
+                <div class="field column">
+                  <%= passenger.label :name, class: "label" %>
+                  <%= passenger.text_field :name, class: "input" %>
+                </div>
+                <div class="field column">
+                  <%= passenger.label :email, class: "label" %>
+                  <%= passenger.text_field :email, class: "input" %>
+                </div>
+              </div>
+            <% end %>
+            <div class="is-flex is-justify-content-right">
+              <a href="<%= root_path %>" class="button is-danger">Cancel</a> &nbsp; &nbsp;
+              <%= f.submit "Book Flight", class: "button is-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
